@@ -1,9 +1,8 @@
 from datetime import date, datetime
 from pydantic import BaseModel
+from pydantic.schema import Optional
 
 class StudentBase(BaseModel):
-    '''Student Base Class'''
-    
     first_name: str
     last_name: str
     gender: str
@@ -11,27 +10,19 @@ class StudentBase(BaseModel):
     university_name: str
     picture_url: str
     resume_url: str
-    
-
 
 class StudentCreate(StudentBase):
-    '''Student Class to be used in Create'''
     pass
-
 
 class StudentUpdate(StudentBase):
-    '''Student class to be used in Update'''
     pass
 
-
-class Student(StudentBase):
-    '''Student class to be used in returning data'''
+class StudentResponse(StudentBase):
     id: int
     created: datetime
-    created_by: str
+    created_by: Optional[str]
     modified: datetime
-    modified_by: str
+    modified_by: Optional[str]
 
     class Config:
         orm_mode = True
-

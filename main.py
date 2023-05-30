@@ -1,10 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-#from databases import Database
 import psycopg2
-from database import engine, SQLALCHEMY_DATABASE_URL,Base
-from routers import router
-#from .models import student
+from database.database import Base, get_db, engine, SQLALCHEMY_DATABASE_URL
+from routers.students import router
 
 app = FastAPI()
 
@@ -25,21 +23,25 @@ async def hello():
 
 def test_connection():
     try:
-        # Connect to an existing database
-        # /* eslint-disable-line not -context-manager * /
-        with psycopg2.connect(SQLALCHEMY_DATABASE_URL) as conn:
+        # Connect to the PostgreSQL database
+        conn = psycopg2.connect(SQLALCHEMY_DATABASE_URL)
 
-            # Open a cursor to perform database operations
-            with conn.cursor() as cur:
+        # Open a cursor to perform database operations
+        cur = conn.cursor()
 
-                print("connection succss")
-    except:
-        print("Connection failed")
+        print("Connection success")
 
-test_connection()
+        # Close the cursor and connection
+        cur.close()
+        conn.close()
+
+    except Exception as e:
+        print("Connection failed:", str(e))
 
 # Create Database tables
-#student.Base.metadata.create_all(bind=engine)
 Base.metadata.create_all(bind=engine)
 
+# Include routers
 app.include_router(router)
+
+test_connection()
