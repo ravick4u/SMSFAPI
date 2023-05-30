@@ -1,0 +1,20 @@
+# Ignore database files
+db.sqlite3
+
+# Ignore static files and media uploads
+/static/
+/media/
+
+# Ignore environment-specific settings
+.env
+.venv
+
+# Ignore IDE and editor files
+.vscode/
+.idea/
+
+# Ignore package dependencies
+/node_modules/
+
+# Ignore pycache from all subfolders dependencies
+**/__pycache__/
